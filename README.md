@@ -1,74 +1,100 @@
-# .
+# UTEERS - Vue.js Login App
 
-This template should help get you started developing with Vue 3 in Vite.
+A modern Vue.js login application with TailwindCSS styling and authentication.
 
-## Recommended IDE Setup
+## 🚀 Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Vue.js 3** with Composition API
+- **TailwindCSS** for modern styling
+- **Responsive Design** that works on all devices
+- **Authentication System** with toast notifications
+- **Loading States** and smooth animations
+- **Error Handling** with user-friendly messages
 
-## Type Support for `.vue` Imports in TS
+## 🛠️ Tech Stack
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Vue.js 3
+- Vite (Build tool)
+- TailwindCSS
+- JavaScript (ES6+)
+- PostCSS & Autoprefixer
 
-## Customize configuration
+## 📦 Installation
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+```bash
+# Clone the repository
+git clone https://github.com/Duonggtt/uteers.git
 
-## Project Setup
+# Navigate to project directory
+cd uteers
 
-```sh
+# Install dependencies
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# Start development server
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## 🚀 Build & Deploy
 
-```sh
+```bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## 🌐 Deploy to Vercel
+
+1. Push your code to GitHub
+2. Connect your GitHub repository to Vercel
+3. Vercel will automatically detect the Vue.js project and deploy it
+
+### Vercel Configuration
+
+The project includes `vercel.json` for optimal deployment configuration:
+- Automatic SPA routing
+- Optimized build settings
+- Framework detection
+
+## 🔐 Login Credentials
+
+For testing purposes:
+- **Email**: 21040111@vnu.edu.vn
+- **Password**: B1234567
+
+## 📱 Features Showcase
+
+- **Full-screen background** with fallback gradient
+- **Centered login card** with glass-morphism effect
+- **Password visibility toggle**
+- **Form validation** with real-time feedback
+- **Toast notifications** for success/error states
+- **Loading animations** during authentication
+- **Responsive design** for all screen sizes
+
+## 🎨 Styling
+
+- Modern UI with TailwindCSS
+- Custom animations and transitions
+- Light theme optimized for accessibility
+- Hover and focus states for better UX
+
+## 📝 Development
+
+```bash
+# Development mode with hot reload
+npm run dev
+
+# Build for production
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## 📄 License
 
-```sh
-npm run test:unit
-```
+This project is created for educational purposes.
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+## 🤝 Contributing
 
-```sh
-npm run test:e2e:dev
-```
-
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-npm run build
-npm run test:e2e
-```
-
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
-
-```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-npm run build
-
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
+Feel free to submit issues and enhancement requests!

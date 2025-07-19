@@ -1,5 +1,26 @@
 <template>
   <div class="min-h-screen w-full bg-gradient-to-br from-blue-50 via-white to-green-50 overflow-x-hidden">
+    <!-- Loading Screen -->
+    <div v-if="isLoading" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <div class="text-center">
+        <div class="mb-8">
+          <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-green-500 rounded-full mx-auto flex items-center justify-center animate-bounce">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="text-2xl font-bold bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent mb-4">
+          UTEERS
+        </div>
+        <div class="text-gray-600 animate-pulse">
+          Đang tải các dự án tình nguyện...
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div v-show="!isLoading" class="animate-fade-in">
     <!-- Navbar -->
     <Navbar />
     
@@ -432,6 +453,7 @@
         </div>
       </div>
     </footer>
+    </div>
   </div>
 </template>
 
@@ -447,6 +469,7 @@ export default {
   data() {
     return {
       ulisLogo: ulisLogoImage,
+      isLoading: true,
       filters: {
         duration: [],
         field: [],
@@ -697,8 +720,12 @@ export default {
     }
   },
   mounted() {
-    this.filteredProjects = [...this.allProjects]
-    this.applySort()
+    // Simulate loading time
+    setTimeout(() => {
+      this.filteredProjects = [...this.allProjects]
+      this.applySort()
+      this.isLoading = false
+    }, 1200)
   },
   methods: {
     applyFilters() {
@@ -794,6 +821,51 @@ export default {
 </script>
 
 <style scoped>
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animation classes */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out;
+}
+
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;

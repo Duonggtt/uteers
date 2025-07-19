@@ -1,5 +1,26 @@
 <template>
   <div class="min-h-screen w-full bg-gradient-to-br from-blue-50 via-white to-green-50 overflow-x-hidden">
+    <!-- Loading Screen -->
+    <div v-if="isLoading" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <div class="text-center">
+        <div class="mb-8">
+          <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-green-500 rounded-full mx-auto flex items-center justify-center animate-pulse">
+            <svg class="w-10 h-10 text-white animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="text-2xl font-bold bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent mb-4">
+          UTEERS
+        </div>
+        <div class="text-gray-600 animate-bounce">
+          Đang tải thông tin dự án...
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div v-show="!isLoading" class="animate-fade-in">
     <!-- Navbar -->
     <Navbar />
     
@@ -7,7 +28,7 @@
     <main class="pt-20 w-full">
       <div class="w-full px-8 sm:px-12 lg:px-16 xl:px-24 py-8">
         <!-- Back Button -->
-        <div class="mb-8">
+        <div class="mb-8 animate-slide-in-left">
           <button 
             @click="goBack"
             class="flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200"
@@ -20,7 +41,7 @@
         </div>
 
         <!-- Project Header -->
-        <div v-if="project" class="mb-12">
+        <div v-if="project" class="mb-12 animate-slide-in-up">
           <div class="relative h-64 md:h-80 rounded-2xl overflow-hidden mb-8">
             <img 
               :src="project.image" 
@@ -58,9 +79,9 @@
         </div>
 
         <!-- Content Layout -->
-        <div v-if="project" class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div v-if="project" class="grid grid-cols-1 lg:grid-cols-3 gap-12 animate-scale-in">
           <!-- Main Content - Left Column (2/3 width) -->
-          <div class="lg:col-span-2 space-y-8">
+          <div class="lg:col-span-2 space-y-8 animate-slide-in-left">
             <!-- Description Section -->
             <div class="bg-white rounded-2xl shadow-lg p-8">
               <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
@@ -152,7 +173,7 @@
           </div>
 
           <!-- Sidebar - Right Column (1/3 width) -->
-          <div class="lg:col-span-1 space-y-6">
+          <div class="lg:col-span-1 space-y-6 animate-slide-in-right">
             <!-- Overview Card -->
             <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
               <h3 class="text-xl font-bold text-gray-900 mb-6">Tổng quan dự án</h3>
@@ -383,6 +404,7 @@
         </div>
       </div>
     </footer>
+    </div>
   </div>
 </template>
 
@@ -404,6 +426,7 @@ export default {
   data() {
     return {
       ulisLogo: ulisLogoImage,
+      isLoading: true,
       project: null,
       projectTasks: [],
       accommodationInfo: {
@@ -645,8 +668,12 @@ export default {
     }
   },
   mounted() {
-    this.loadProjectData()
-    this.checkJoinedStatus()
+    // Simulate loading time
+    setTimeout(() => {
+      this.loadProjectData()
+      this.checkJoinedStatus()
+      this.isLoading = false
+    }, 1000)
   },
   methods: {
     loadProjectData() {
@@ -892,6 +919,81 @@ export default {
 </script>
 
 <style scoped>
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animation classes */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.6s ease-out 0.2s both;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out 0.1s both;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out 0.4s both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.6s ease-out 0.3s both;
+}
+
 /* Smooth transitions */
 * {
   transition: all 0.3s ease;

@@ -3,18 +3,18 @@
     <!-- Background với ảnh từ URL -->
     <div 
       v-if="!backgroundError"
-      class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-      :style="`background-image: url('${backgroundImage}'); background-attachment: fixed;`"
+      class="absolute -inset-4 w-screen h-screen bg-cover bg-center bg-no-repeat blur-sm"
+      :style="`background-image: url('${backgroundImage}'); background-size: cover; background-position: center; transform: scale(1.2);`"
     ></div>
     
     <!-- Fallback background nếu ảnh lỗi -->
     <div 
       v-else
-      class="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-100 via-white to-blue-50"
+      class="absolute -inset-4 w-screen h-screen bg-gradient-to-br from-blue-100 via-white to-blue-50"
     ></div>
     
     <!-- Overlay để làm sáng hơn ảnh nền -->
-    <div class="absolute inset-0 w-full h-full bg-white opacity-20"></div>
+    <div class="absolute -inset-4 w-screen h-screen bg-black/5"></div>
     
     <!-- Ảnh ẩn để test load -->
     <img 
@@ -26,25 +26,26 @@
     />
     
     <!-- Login Card -->
+        <!-- Login Card -->
     <div 
-      class="relative z-10 bg-white rounded-2xl shadow-xl border border-gray-200 p-8 w-full max-w-md mx-4 transform transition-all duration-300 ease-out backdrop-blur-sm"
+      class="relative z-10 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-8 w-full max-w-md mx-4 transform transition-all duration-300 ease-out"
       :class="{ 'animate-fade-in-up': isVisible }"
     >
       <!-- Logo ULIS -->
       <div class="text-center mb-6">
         <img 
-          src="https://media.canva.com/v2/image-resize/format:PNG/height:200/quality:100/uri:ifs%3A%2F%2FM%2F2cd932d4-1825-4fde-a0b0-d5869205483f/watermark:F/width:200?csig=AAAAAAAAAAAAAAAAAAAAAEbF9TEMVUuE2vCnaA_MEQVk_UPjXe3hXq6SopKD11L_&exp=1752868134&osig=AAAAAAAAAAAAAAAAAAAAAMtu5QdpUx28IlxPdeZCQh2paRNGfH-yTTPP1VicZjbz&signer=media-rpc&x-canva-quality=thumbnail" 
+          :src="ulisLogo" 
           alt="ULIS Logo" 
           class="w-36 h-36 mx-auto mb-4 object-contain"
           @error="handleImageError"
         />
-        <!-- Fallback sử dụng SVG nếu ảnh lỗi -->
-        <img 
+        <!-- Fallback nếu ảnh lỗi - sử dụng text -->
+        <div 
           v-if="logoError"
-          src="https://media.canva.com/v2/image-resize/format:PNG/height:200/quality:100/uri:ifs%3A%2F%2FM%2F2cd932d4-1825-4fde-a0b0-d5869205483f/watermark:F/width:200?csig=AAAAAAAAAAAAAAAAAAAAAEbF9TEMVUuE2vCnaA_MEQVk_UPjXe3hXq6SopKD11L_&exp=1752868134&osig=AAAAAAAAAAAAAAAAAAAAAMtu5QdpUx28IlxPdeZCQh2paRNGfH-yTTPP1VicZjbz&signer=media-rpc&x-canva-quality=thumbnail" 
-          alt="ULIS Logo" 
-          class="w-36 h-36 mx-auto mb-4 object-contain"
-        />
+          class="w-36 h-36 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center"
+        >
+          <span class="text-white font-bold text-3xl">ULIS</span>
+        </div>
       </div>
       
       <!-- Welcome Text -->
@@ -155,6 +156,9 @@
 </template>
 
 <script>
+import backgroundImage from '@/assets/bg.jpg'
+import ulisLogo from '@/assets/ulis-logo.png'
+
 export default {
   name: 'LoginPage',
   data() {
@@ -165,8 +169,9 @@ export default {
       isLoading: false,
       isVisible: false,
       logoError: false,
-      backgroundImage: 'https://media.canva.com/v2/image-resize/format:PNG/height:753/quality:100/uri:ifs%3A%2F%2FM%2Fb0c167c0-3509-49b7-ab93-b3cb8197c718/watermark:F/width:1000?csig=AAAAAAAAAAAAAAAAAAAAAKnjMX8rWOfbNOiBuSnhJGUz8wrAUWBtycTsFubWe4_g&exp=1752868073&osig=AAAAAAAAAAAAAAAAAAAAAIVj8bTjarkkM3iea23khBYQWvqbHi-YdkEnEJdnKggn&signer=media-rpc&x-canva-quality=screen_2x',
+      backgroundImage: backgroundImage,
       backgroundError: false,
+      ulisLogo: ulisLogo,
       // Toast notification
       toast: {
         show: false,
@@ -253,22 +258,28 @@ export default {
 
 <style scoped>
 /* Đảm bảo background full màn hình */
-.h-screen {
-  height: 100vh !important;
-  min-height: 100vh;
+.absolute.-inset-4 {
+  position: absolute !important;
+  top: -1rem !important;
+  left: -1rem !important;
+  right: -1rem !important;
+  bottom: -1rem !important;
+  width: calc(100vw + 2rem) !important;
+  height: calc(100vh + 2rem) !important;
+  min-width: calc(100vw + 2rem) !important;
+  min-height: calc(100vh + 2rem) !important;
 }
 
-.w-screen {
-  width: 100vw !important;
-  min-width: 100vw;
-}
-
-.fixed.inset-0 {
+/* Container chính full màn hình */
+.h-screen.w-screen.fixed.inset-0 {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden !important;
 }
 
 /* Animation fade-in-up mượt mà */
@@ -287,24 +298,6 @@ export default {
   animation: fade-in-up 0.8s ease-out;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
 /* Toast animation */
 @keyframes slideInFromRight {
   from {
@@ -319,5 +312,25 @@ export default {
 
 .fixed.top-5.right-5 {
   animation: slideInFromRight 0.3s ease-out;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .blur-sm {
+    filter: blur(2px);
+  }
+  
+  .absolute.-inset-4 {
+    position: fixed !important;
+    top: -2rem !important;
+    left: -2rem !important;
+    right: -2rem !important;
+    bottom: -2rem !important;
+    width: calc(100vw + 4rem) !important;
+    height: calc(100vh + 4rem) !important;
+    min-width: calc(100vw + 4rem) !important;
+    min-height: calc(100vh + 4rem) !important;
+    transform: scale(1.1) !important;
+  }
 }
 </style>

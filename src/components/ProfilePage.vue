@@ -25,7 +25,7 @@
                 <div>
                   <h1 class="text-3xl font-bold text-gray-900">Bùi Thị Thái Bình</h1>
                   <p class="text-gray-600">21040111@vnu.edu.vn</p>
-                  <p class="text-gray-500">Khoa Tiếng Anh</p>
+                  <p class="text-gray-500">Khoa SPTA</p>
                 </div>
                 <button class="mt-4 sm:mt-0 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
                   Chỉnh sửa hồ sơ
@@ -59,11 +59,11 @@
               </div>
               <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-red-500">
                 <label class="text-sm font-bold text-gray-600 uppercase tracking-wide">Lớp</label>
-                <p class="text-lg font-semibold text-gray-900 mt-2">Lop gi do....</p>
+                <p class="text-lg font-semibold text-gray-900 mt-2">21E1</p>
               </div>
               <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-indigo-500">
                 <label class="text-sm font-bold text-gray-600 uppercase tracking-wide">Khoa</label>
-                <p class="text-lg font-semibold text-gray-900 mt-2">Khoa Tiếng Anh</p>
+                <p class="text-lg font-semibold text-gray-900 mt-2">Khoa SPTA</p>
               </div>
             </div>
           </div>
@@ -79,7 +79,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                   </svg>
                 </div>
-                <div class="text-3xl font-bold text-blue-600 mb-2">5</div>
+                <div class="text-3xl font-bold text-blue-600 mb-2">{{ joinedProjectsCount }}</div>
                 <div class="text-sm text-gray-600 font-medium">Dự án đã tham gia</div>
               </div>
 
@@ -92,6 +92,42 @@
                 </div>
                 <div class="text-3xl font-bold text-green-600 mb-2">3</div>
                 <div class="text-sm text-gray-600 font-medium">Giấy chứng nhận đã nhận</div>
+              </div>
+
+              <!-- Joined Projects List -->
+              <div v-if="joinedProjectsCount > 0" class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl border border-amber-200 p-6">
+                <h3 class="text-lg font-semibold text-amber-800 mb-4 flex items-center">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                  </svg>
+                  Dự án đã tham gia
+                </h3>
+                <div class="space-y-2">
+                  <div 
+                    v-for="projectSlug in joinedProjects.slice(0, 3)" 
+                    :key="projectSlug"
+                    class="flex items-center text-sm text-amber-700 bg-white bg-opacity-60 rounded-lg p-3"
+                  >
+                    <div class="w-2 h-2 bg-amber-500 rounded-full mr-3"></div>
+                    <span>{{ getProjectTitle(projectSlug) }}</span>
+                  </div>
+                  <div v-if="joinedProjectsCount > 3" class="text-center">
+                    <span class="text-sm text-amber-600 font-medium">+{{ joinedProjectsCount - 3 }} dự án khác</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div v-else class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 p-6 text-center">
+                <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                <p class="text-gray-500 text-sm">Chưa tham gia dự án nào</p>
+                <router-link 
+                  to="/projects" 
+                  class="inline-block mt-3 text-blue-600 hover:text-blue-700 text-sm font-medium underline"
+                >
+                  Khám phá các dự án
+                </router-link>
               </div>
             </div>
           </div>
@@ -248,7 +284,129 @@ export default {
   },
   data() {
     return {
-      ulisLogo: ulisLogoImage
+      ulisLogo: ulisLogoImage,
+      joinedProjectsCount: 0,
+      allProjects: [
+        {
+          id: 1,
+          slug: 'truong-hoc-xanh-tuong-lai-xanh',
+          title: 'Chiến dịch "Trường học xanh - Tương lai xanh"'
+        },
+        {
+          id: 2,
+          slug: 'moi-truong-xanh-sach',
+          title: 'Dự án "Môi trường xanh - sạch"'
+        },
+        {
+          id: 3,
+          slug: 'rung-xanh-ulis',
+          title: 'Chương trình "Rừng xanh ULIS"'
+        },
+        {
+          id: 4,
+          slug: 'day-hoc-mien-phi',
+          title: 'Chương trình "Dạy học miễn phí"'
+        },
+        {
+          id: 5,
+          slug: 'sinh-vien-ve-nguon',
+          title: 'Chương trình "Sinh viên về nguồn"'
+        },
+        {
+          id: 6,
+          slug: 'cau-noi-tri-thuc',
+          title: 'Dự án "Cầu nối tri thức"'
+        },
+        {
+          id: 7,
+          slug: 'le-hoi-van-hoa-dan-toc',
+          title: 'Lễ hội "Văn hóa dân tộc"'
+        },
+        {
+          id: 8,
+          slug: 'ke-chuyen-dan-gian',
+          title: 'Dự án "Kể chuyện dân gian"'
+        },
+        {
+          id: 9,
+          slug: 'bao-ton-di-san',
+          title: 'Chiến dịch "Bảo tồn di sản"'
+        },
+        {
+          id: 10,
+          slug: 'mau-sac-cuoc-song',
+          title: 'Chương trình "Màu sắc cuộc sống"'
+        },
+        {
+          id: 11,
+          slug: 'am-nhac-cho-moi-nguoi',
+          title: 'Dự án "Âm nhạc cho mọi người"'
+        },
+        {
+          id: 12,
+          slug: 'festival-nghe-thuat-tre-ulis',
+          title: 'Festival "Nghệ thuật trẻ ULIS"'
+        },
+        {
+          id: 13,
+          slug: 'chia-se-yeu-thuong',
+          title: 'Chương trình "Chia sẻ yêu thương"'
+        },
+        {
+          id: 14,
+          slug: 'diem-tua-cho-nguoi-cao-tuoi',
+          title: 'Dự án "Điểm tựa cho người cao tuổi"'
+        },
+        {
+          id: 15,
+          slug: 'mai-am-tinh-thuong',
+          title: 'Chương trình "Mái ấm tình thương"'
+        },
+        {
+          id: 16,
+          slug: 'ket-noi-sinh-vien-ulis',
+          title: 'Ngày hội "Kết nối sinh viên ULIS"'
+        },
+        {
+          id: 17,
+          slug: 'tuong-lai-nghe-nghiep',
+          title: 'Hội thảo "Tương lai nghề nghiệp"'
+        },
+        {
+          id: 18,
+          slug: 'tuoi-tre-ulis-vi-cong-dong',
+          title: 'Đại hội "Tuổi trẻ ULIS vì cộng đồng"'
+        }
+      ]
+    }
+  },
+  computed: {
+    joinedProjects() {
+      return JSON.parse(localStorage.getItem('joinedProjects') || '[]')
+    }
+  },
+  mounted() {
+    this.updateJoinedProjectsCount()
+    // Listen for storage changes to update count in real-time
+    window.addEventListener('storage', this.updateJoinedProjectsCount)
+    // Listen for custom projectJoined event
+    window.addEventListener('projectJoined', this.handleProjectJoined)
+  },
+  beforeUnmount() {
+    window.removeEventListener('storage', this.updateJoinedProjectsCount)
+    window.removeEventListener('projectJoined', this.handleProjectJoined)
+  },
+  methods: {
+    updateJoinedProjectsCount() {
+      this.joinedProjectsCount = this.joinedProjects.length
+    },
+    handleProjectJoined(event) {
+      // Update count immediately when a project is joined
+      this.joinedProjectsCount = event.detail.totalCount
+    },
+    getProjectTitle(slug) {
+      const project = this.allProjects.find(p => p.slug === slug)
+      return project ? project.title : 'Dự án không xác định'
     }
   }
 }

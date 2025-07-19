@@ -23,6 +23,12 @@ const routes = [
     component: () => import('../components/ProjectsPage.vue')
   },
   {
+    path: '/project/:slug',
+    name: 'ProjectDetail',
+    component: () => import('../components/ProjectDetail.vue'),
+    props: true
+  },
+  {
     path: '/certificates',
     name: 'Certificates',
     component: () => import('../components/CertificatesPage.vue')

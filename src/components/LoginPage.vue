@@ -212,11 +212,10 @@ export default {
           // Đăng nhập thành công
           this.showToast('Đăng nhập thành công! Chào mừng bạn quay trở lại!', 'success')
           
-          // Sau 2 giây sẽ chuyển đến trang chủ (sẽ thiết kế sau)
+          // Sau 2 giây sẽ chuyển đến trang chủ
           setTimeout(() => {
-            // TODO: Chuyển đến trang chủ
-            console.log('Chuyển đến trang chủ...')
-            // this.$router.push('/dashboard') hoặc emit event
+            // Chuyển đến trang chủ
+            this.$router.push('/home')
           }, 2000)
           
         } else if (this.email !== correctEmail && this.password !== correctPassword) {
